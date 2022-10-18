@@ -36,7 +36,7 @@ def getPort():
     for i in range(0, N):
         port = ports[i]
         strPort = str(port)
-        if "FT232R USB UART" in strPort:
+        if "COM3" in strPort:
             splitPort = strPort.split(" ")
             commPort = (splitPort[0])
     return commPort
@@ -106,10 +106,11 @@ client.on_disconnect = disconnected
 client.on_message = message
 client.on_subscribe = subscribe
 client.connect()
-client.publish("sensor1", readTemperature())
-client.publish("sensor2", readMoisture())
 client.loop_background()
 
+
 while True:
+    client.publish("sensor1", readTemperature()/100)
+    client.publish("sensor2", readMoisture()/100)
     pass
 # DOng
