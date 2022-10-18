@@ -29,15 +29,6 @@ def message(client, feed_id, payload):
     ser.write((str(payload) + "#").encode())
 
 
-client = MQTTClient(AIO_USERNAME, AIO_KEY)
-client.on_connect = connected
-client.on_disconnect = disconnected
-client.on_message = message
-client.on_subscribe = subscribe
-client.connect()
-client.loop_background()
-
-
 def getPort():
     ports = serial.tools.list_ports.comports()
     N = len(ports)
@@ -63,12 +54,6 @@ relay2_ON = [15, 6, 0, 0, 0, 255, 200, 164]
 relay2_OFF = [15, 6, 0, 0, 0, 0, 136, 228]
 
 
-# while True:
-#     ser.write(relay2_ON)
-#     time.sleep(2)
-#     ser.write(relay2_OFF)
-#     time.sleep(5)
-
 def setDevice1(state):
     if state == True:
         while True:
@@ -80,10 +65,10 @@ def setDevice1(state):
         ser.write(relay1_OFF)
 
 
-def serial_read_data(ser):
-    bytesToRead = ser.inWaiting()
+def serial_read_data(ser1):
+    bytesToRead = ser1.inWaiting()
     if bytesToRead > 0:
-        out = ser.read(bytesToRead)
+        out = ser1.read(bytesToRead)
         data_array = [b for b in out]
         print(data_array)
         if len(data_array) >= 7:
@@ -114,6 +99,16 @@ def readMoisture():
     time.sleep(1)
     return serial_read_data(ser)
 
+
+client = MQTTClient(AIO_USERNAME, AIO_KEY)
+client.on_connect = connected
+client.on_disconnect = disconnected
+client.on_message = message
+client.on_subscribe = subscribe
+client.connect()
+client.publish("sensor1", readTemperature())
+client.publish("sensor2", readMoisture())
+client.loop_background()
 
 while True:
     pass
