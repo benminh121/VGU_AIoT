@@ -1,3 +1,5 @@
+import time
+
 from keras.models import load_model
 from PIL import Image, ImageOps
 import numpy as np
@@ -51,3 +53,9 @@ def image_detector():
     file = open("labels.txt", encoding="utf8")
     data = file.read().split("\n")
     print("AI Result: ", data[max_index])
+
+
+while True:
+    time.sleep(5)
+    image_capture()
+    image_detector()
