@@ -55,6 +55,8 @@ def image_detector():
 client = MQTTClient("tranlydongdong", "aio_mVLt08wD3Nd2mVBdedDiZHFu4tJq")
 client.connect()
 client.loop_background()
+
+
 while True:
     time.sleep(5)
     image_capture()
