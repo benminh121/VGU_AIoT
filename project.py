@@ -5,7 +5,7 @@ import sys
 from Adafruit_IO import MQTTClient
 
 # Adafruit_IO Config
-AIO_FEED_ID = "Actuator1"
+AIO_FEED_IDs = ["actuator1", "actuator2", "actuator3", "actuator4"]
 AIO_USERNAME = "tranlydongdong"
 AIO_KEY = "aio_mVLt08wD3Nd2mVBdedDiZHFu4tJq"
 
@@ -13,7 +13,8 @@ AIO_KEY = "aio_mVLt08wD3Nd2mVBdedDiZHFu4tJq"
 # Adafruit_IO Function
 def connected(client):
     print("Ket noi thanh cong...")
-    client.subscribe(AIO_FEED_ID)
+    for topic in AIO_FEED_IDs:
+        client.subscribe(topic)
 
 
 def subscribe(client, userdata, mid, granted_qos):
@@ -26,7 +27,7 @@ def disconnected(client):
 
 
 def message(client, feed_id, payload):
-    print("Nhan du lieu: " + payload)
+    print("Nhan du lieu: " + payload + " feed_id: " + feed_id)
     setDevice1(payload)
     ser.write((str(payload) + "#").encode())
 
@@ -70,6 +71,8 @@ def serial_read_data(ser1):
 soil_temperature = [1, 3, 0, 6, 0, 1, 100, 11]
 soil_moisture = [1, 3, 0, 7, 0, 1, 53, 203]
 
+def setDevice1(state):
+    return 0
 
 def readTemperature():
     serial_read_data(ser)
@@ -95,9 +98,10 @@ client.connect()
 client.loop_background()
 
 while True:
-    client.publish("sensor1", readTemperature() / 100)
-    client.publish("sensor2", readMoisture() / 100)
+    # client.publish("sensor1", readTemperature() / 100)
+    # client.publish("sensor2", readMoisture() / 100)
     pass
+
 
 # API
 '''
