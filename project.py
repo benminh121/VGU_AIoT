@@ -3,9 +3,11 @@ import serial.tools.list_ports
 import time
 import sys
 from Adafruit_IO import MQTTClient
+from datetime import datetime
+from Adafruit_IO import Client
 
 # Adafruit_IO Config
-AIO_FEED_ID = "Actuator1"
+AIO_FEED_ID = ["actuator1", "actuator2", "actuator3", "actuator4"]
 AIO_USERNAME = "tranlydongdong"
 AIO_KEY = "aio_mVLt08wD3Nd2mVBdedDiZHFu4tJq"
 
@@ -94,9 +96,35 @@ client.on_subscribe = subscribe
 client.connect()
 client.loop_background()
 
+
+# Send data from sensor to Adafruit_IO
+def sendData():
+    time.sleep(60)
+    client.publish("sensor1", readMoisture() / 100)
+    time.sleep(1)
+    client.publish("sensor2", readTemperature() / 100)
+    time.sleep(1)
+
+
+def autoPump():
+    nw = datetime.now()
+    if nw.hour == 15 and nw.minute == 0:
+        client.publish("actuator3", 1)
+    if nw.hour == 15 and nw.minute == 15:
+        client.publish("actuator3", 0)
+
+
+def getAutoMode():
+    aio = Client(AIO_USERNAME, AIO_KEY)
+    dataAutoMode = aio.data('actuator4')
+    for d in dataAutoMode:
+        return d.value
+
+
 while True:
-    client.publish("sensor1", readTemperature() / 100)
-    client.publish("sensor2", readMoisture() / 100)
+    # sendData()
+    # openPump()
+    time.sleep(5)
     pass
 
 # API
@@ -105,6 +133,8 @@ Get last_value
 Sensor 1: https://io.adafruit.com/api/v2/tranlydongdong/feeds/sensor1
 Sensor 2: https://io.adafruit.com/api/v2/tranlydongdong/feeds/sensor2
 
+actuator3: pump
+actuator4: auto mode of pump
 Time
 updated_at
 '''
