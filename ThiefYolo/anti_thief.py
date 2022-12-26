@@ -6,22 +6,6 @@ from imutils.video import VideoStream
 import imutils
 import pyglet
 
-# Cai dat tham so doc weight, config va class name
-ap = argparse.ArgumentParser()
-ap.add_argument('-o', '--object_name', required=True,
-                help='path to yolo config file')
-ap.add_argument('-f', '--frame', default=5, type=int,
-                help='path to yolo config file')
-ap.add_argument('-c', '--config', default='yolov3.cfg',
-                help='path to yolo config file')
-ap.add_argument('-w', '--weights', default='yolov3.weights',
-                help='path to yolo pre-trained weights')
-ap.add_argument('-cl', '--classes', default='yolov3.txt',
-                help='path to text file containing class names')
-args = ap.parse_args()
-
-
-# Ham tra ve output layer
 def get_output_layers(net1):
     layer_names = net1.getLayerNames()
     output_layers = [layer_names[a - 1] for a in net1.getUnconnectedOutLayers()]
@@ -37,16 +21,16 @@ def draw_prediction(img, class_id, x, y, x_plus_w, y_plus_h):
 
 
 # Doc tu webcam
-cap = VideoStream(src=1).start()
+cap = VideoStream(src=2).start()
 
 # Doc ten cac class
 classes = None
-with open(args.classes, 'r') as f:
+with open('yolov3.txt', 'r') as f:
     classes = [line.strip() for line in f.readlines()]
 
 COLORS = np.random.uniform(0, 255, size=(len(classes), 3))
-net = cv2.dnn.readNet(args.weights, args.config)
-
+# net = cv2.dnn.readNet(args.weights, args.config)
+net = cv2.dnn.readNet('yolov3.weights', 'yolov3.cfg')
 nCount = 0
 
 # Bat dau doc tu webcam
@@ -79,7 +63,7 @@ while (True):
             scores = detection[5:]
             class_id = np.argmax(scores)
             confidence = scores[class_id]
-            if (confidence > 0.5) and (classes[class_id] == args.object_name):
+            if (confidence > 0.5) and (classes[class_id] == 'car'):
                 center_x = int(detection[0] * Width)
                 center_y = int(detection[1] * Height)
                 w = int(detection[2] * Width)
@@ -99,7 +83,7 @@ while (True):
         y = box[1]
         w = box[2]
         h = box[3]
-        if classes[class_ids[i]] == args.object_name:
+        if classes[class_ids[i]] == 'car':
             isExist = True
             draw_prediction(image, class_ids[i], round(x), round(y), round(x + w), round(y + h))
 
@@ -107,11 +91,11 @@ while (True):
     if isExist:
         nCount = 0
     else:
-        # Neu khogn ton tai thi tang so frame khong co len
+        # Neu khong ton tai thi tang so frame khong co len
         nCount += 1
         # Neu qua 5 frame ko co thi bao dong!
-        if nCount > args.frame:
-            # hien thi chu Alarrm
+        if nCount > 10:
+            # hien thi chu Alarm
             cv2.putText(image, "Alarm alarm alarm!", (100, 100), cv2.FONT_HERSHEY_SIMPLEX, 0.5, (0, 0, 255), 2)
             # Play file sound
             music = pyglet.resource.media('police.wav')

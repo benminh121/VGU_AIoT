@@ -55,13 +55,6 @@ def autoPump():
         client.publish("actuator3", 0)
 
 
-def getAutoMode():
-    aio = Client(AIO_USERNAME, AIO_KEY)
-    dataAutoMode = aio.data('actuator4')
-    for d in dataAutoMode:
-        return d.value
-
-
 while True:
     # sendData(client)
     time.sleep(1)
@@ -71,5 +64,6 @@ while True:
 '''
 actuator1: light
 actuator2: pump
-actuator3: auto mode of pump
+actuator3: auto mode of pump, api: https://io.adafruit.com/api/v2/tranlydongdong/groups/default/feeds/actuator3/data, send 0 1
+
 '''
