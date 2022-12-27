@@ -58,9 +58,8 @@ def writeData(data):
 
 
 def sendData(client):
-    # client.publish("actuator1", readTemperature())
-    # client.publish("actuator2", readMoisture())
-    client.publish("sensor1", 50)
+    client.publish("actuator1", readTemperature())
+    client.publish("actuator2", readMoisture())
 
 
 '''

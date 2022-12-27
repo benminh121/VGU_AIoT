@@ -4,3 +4,6 @@ keras~=2.10.0
 Pillow~=9.2.0
 opencv-python
 pyserial
+pyglet
+imutils
+time

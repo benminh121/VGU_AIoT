@@ -254,4 +254,7 @@ fabric.properties
 ### Yolo
 *.weights
 *.wav
+
+### cache
+__pycache__/
 # End of https://www.toptal.com/developers/gitignore/api/androidstudio
