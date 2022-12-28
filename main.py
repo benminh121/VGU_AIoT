@@ -38,8 +38,8 @@ def message(client, feed_id, payload):
         autoPumpButton = payload
         print("Mode: ", autoPumpButton)
     elif feed_id == "pumptime":
-        hour = int(a.split(":")[0])
-        minute = int(a.split(":")[1])
+        hour = int(autoPumpButton.split(":")[0])
+        minute = int(autoPumpButton.split(":")[1])
 
 
 # Adafruit_IO connected
