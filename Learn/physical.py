@@ -5,8 +5,8 @@ import sys
 from Adafruit_IO import MQTTClient
 
 AIO_FEED_ID = "Actuator1"
-AIO_USERNAME = "tranlydongdong"
-AIO_KEY = "aio_mVLt08wD3Nd2mVBdedDiZHFu4tJq"
+AIO_USERNAME = ""
+AIO_KEY = ""
 
 
 def connected(client):
