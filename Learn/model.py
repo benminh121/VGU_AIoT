@@ -52,7 +52,7 @@ def image_detector():
     client.publish("ai", data[max_index])
 
 
-client = MQTTClient("tranlydongdong", "aio_mVLt08wD3Nd2mVBdedDiZHFu4tJq")
+client = MQTTClient("", "")
 client.connect()
 client.loop_background()
 while True:
