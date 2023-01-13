@@ -1,9 +1,8 @@
 # VGU_AIoT
 
 **Member**
-- Nguyen Thai Minh
-- Tran Dang Tu
-- Tran Ly Dang Khoa
-- Vo Khanh Minh
-- Nguyen Duy Phu Quang
-
+- Nguyen Thai Minh (benminh1201)
+- Tran Dang Tu (DangTuCS)
+- Tran Ly Dang Khoa (khoatlddong)
+- Vo Khanh Minh (Th3FatGuy)
+- Nguyen Duy Phu Quang (ndavid1712)
